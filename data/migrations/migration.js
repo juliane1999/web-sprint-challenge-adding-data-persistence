@@ -37,7 +37,7 @@ exports.up = function (knex) {
           .unsigned()
           .notNullable()
           .references('project_id')
-          .inTable('project')
+          .inTable('projects')
       })
 
       .createTable('project_resources', table => {
@@ -48,7 +48,6 @@ exports.up = function (knex) {
           .references('project_id')
           .inTable('projects')
           .onUpdate('CASCADE')
-          .onDelete('CASCADE');
           
         table.integer('resource_id')
         .unsigned()
@@ -56,7 +55,6 @@ exports.up = function (knex) {
         .references('resource_id')
         .inTable('resources')
         .onUpdate('CASCADE')
-        .onDelete('CASCADE');
       })
   };
   
