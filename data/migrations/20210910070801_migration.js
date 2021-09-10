@@ -4,7 +4,6 @@ exports.up = function(knex) {
 
     .createTable('projects', table => {
       table.increments('project_id')
-      .primary()
       table.string('project_name')
         .notNullable();
         table.string('project_description')
@@ -15,7 +14,6 @@ exports.up = function(knex) {
 
     .createTable('resources', table => {
       table.increments('resource_id')
-      .primary()
       table.string('resource_name')
         .unique()
         .notNullable();
@@ -24,7 +22,6 @@ exports.up = function(knex) {
 
     .createTable('tasks', table => {
       table.increments('task_id')
-      .primary()
       table.string('task_description')
       .notNullable();
       table.string('task_notes')
@@ -37,10 +34,11 @@ exports.up = function(knex) {
         .notNullable()
         .references('project_id')
         .inTable('projects')
-        .onUpdate('CASCADE')
     })
 
     .createTable('project_resources', table => {
+      table.increments()
+      table.timestamps(true, true)
 
       table.integer('project_id')
         .unsigned()

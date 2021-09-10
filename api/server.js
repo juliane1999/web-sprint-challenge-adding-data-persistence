@@ -8,9 +8,9 @@ const TaskRouter = require('./task/router');
 const server = express();
 
 server.use(express.json());
-server.use('/api/project', ProjectRouter);
-server.use('/api/resource', ResourceRouter);
-server.use('/api/task', TaskRouter);
+server.use('/api/projects', ProjectRouter);
+server.use('/api/resources', ResourceRouter);
+server.use('/api/tasks', TaskRouter);
 
 
 server.use((err, req, res) => {

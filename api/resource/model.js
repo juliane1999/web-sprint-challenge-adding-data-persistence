@@ -6,10 +6,13 @@ function getResource() {
     .select('r.*')
 }
 
-async function postResource(resource) {
-    const [resource_id] = await db('resources').insert(resource);
-    return postResource().where({ resource_id }).first();
-  }
+  
+  function postResource(resource) {
+    return db('resources').insert(resource)
+    .then(([resource_id]) => {
+        return db('resources').where('resource_id', resource_id).first()
+    })
+}
 
   module.exports = {
     getResource,
