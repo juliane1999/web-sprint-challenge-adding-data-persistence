@@ -31,7 +31,7 @@ const router = express.Router()
 // })
 
 router.get('/', (req, res, next) => {
-  Task.find()
+  Task.getPostsBy()
     .then(task => {
       res.json(task)
     })
@@ -41,7 +41,7 @@ router.get('/', (req, res, next) => {
 router.post("/", (req, res,next) => {
   const userData = req.body;
 
-Task.add(userData)
+Task.getUserBy(userData)
     .then(data => {
       res.status(201).json(data)
     })
