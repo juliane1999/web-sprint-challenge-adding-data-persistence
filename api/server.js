@@ -12,4 +12,11 @@ server.use('/api/project', ProjectRouter);
 server.use('/api/resource', ResourceRouter);
 server.use('/api/task', TaskRouter);
 
+
+server.use((err, req, res) => {
+    res.status(err.status || 500).json({
+      message: err.message,
+    })
+  })
+
 module.exports = server;
