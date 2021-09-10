@@ -1,45 +1,56 @@
 exports.up = function (knex) {
     return knex.schema
 
-      .createTable('projects', tbl => {
-        tbl.increments('project_id');
-        tbl.string('project_name')
+      .createTable('projects', table => {
+        table.increments('project_id')
+        .primary()
+        table.string('project_name')
           .notNullable();
+          table.string('project_description')
+          .notNullable();
+          table.boolean('project_completed')
+          .notNullable()
+          .defaultTo(false);
       })
 
-      .createTable('resources', tbl => {
-        tbl.increments('resource_id');
-        tbl.string('resource_name')
+      .createTable('resources', table => {
+        table.increments('resource_id')
+        .primary()
+        table.string('resource_name')
           .unique()
           .notNullable();
+          table.string('resource_description')
+          .notNullable();
       })
 
-      .createTable('tasks', tbl => {
-        tbl.increments('task_id');
-        tbl.string('task_description')
-          .notNullable();
+      .createTable('tasks', table => {
+        table.increments('task_id')
+        .primary()
+        table.string('task_description')
+        table.string('task_notes')
+        .notNullable()
+        table.boolean('task_completed')
+        .notNullable()
+        .defaultTo(false);
 
-        tbl.integer('project_id')
+        table.integer('project_id')
           .unsigned()
           .notNullable()
           .references('project_id')
           .inTable('project')
-          .onUpdate('CASCADE')
-          .onDelete('CASCADE');
       })
 
-      .createTable('project_resources', tbl => {
+      .createTable('project_resources', table => {
 
-        tbl.integer('project_id')
+        table.integer('project_id')
           .unsigned()
           .notNullable()
           .references('project_id')
           .inTable('projects')
           .onUpdate('CASCADE')
           .onDelete('CASCADE');
-
           
-        tbl.integer('resource_id')
+        table.integer('resource_id')
         .unsigned()
         .notNullable()
         .references('resource_id')
@@ -53,6 +64,7 @@ exports.up = function (knex) {
     return knex.schema
       .dropTableIfExists('projects')
       .dropTableIfExists('resources')
-      .dropTableIfExists('tasks');
+      .dropTableIfExists('tasks')
+      .dropTableIfExists('project_resources');
   };
   
