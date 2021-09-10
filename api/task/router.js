@@ -3,7 +3,7 @@
 const express = require('express')
 const Task = require('./model')
 const router = express.Router()
-const db = require('../../data/dbConfig')
+// const db = require('../../data/dbConfig')
 
 // router.get('/', (req, res, next) => {
 //     Task.getTasks()
@@ -13,44 +13,39 @@ const db = require('../../data/dbConfig')
 //         .catch(next)
 // })
 
-// router.post('/', async (req, res, next) => {
-//     try{
-//         const insert = await Task.createTask(req.body)
-//         res.status(201).json(insert)
-//     } catch(err) {
-//         next(err)
-//     }
+// router.get('/', async (req, res, next) => {
+//   try {
+//     const user = await Task.getUserBy(req.params.id)
+//     res.json(user)
+//   } catch (err) {
+//     next(err)
+//   }
+// });
+
+// router.get('/', async (req, res, next) => {
+//   try {
+//     res.json(await Task.getPostsBy(req.params.id))
+//   } catch (err) {
+//     next(err)
+//   }
 // })
 
-router.get('/', async (req, res, next) => {
-  try {
-    const user = await Task.getUserBy(req.params.id)
-    res.json(user)
-  } catch (err) {
-    next(err)
-  }
-});
-
-router.get('/', async (req, res, next) => {
-  try {
-    res.json(await Task.getPostsBy(req.params.id))
-  } catch (err) {
-    next(err)
-  }
+router.get('/', (req, res, next) => {
+  Task.find()
+    .then(task => {
+      res.json(task)
+    })
+    .catch(next)
 })
 
-router.post("/", (req, res) => {
+router.post("/", (req, res,next) => {
   const userData = req.body;
 
-  db('projects')
-    .insert(userData, 'project_id')
-    .then(ids => {
-      res.status(201).json({ created: ids[0] });
+Task.add(userData)
+    .then(data => {
+      res.status(201).json(data)
     })
-    .catch(err => {
-      console.log(err)
-      res.status(500).json({ message: "Failed to create new user" });
-    });
+    .catch(next)
 });
 
 module.exports = router
