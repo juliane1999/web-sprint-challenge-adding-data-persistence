@@ -1,7 +1,12 @@
 // build your `Project` model here
 const db = require('../../data/dbConfig')
 
-function getProject() {
+function getProject(project_completed) {
+  if(project_completed === 1) {
+    return true
+  } if (project_completed === 0){
+    return false
+  }
   return db('projects')
 }
 
